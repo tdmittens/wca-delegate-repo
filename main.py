@@ -5,9 +5,9 @@ from sklearn.utils import shuffle
 
 
 ####### TO CHANGE
-comp_id = "OakvilleFallA2022"
+comp_id = "OakvilleFallB2022"
 json_path = r"data\{}.json".format(comp_id)
-df_groups = pd.read_csv(r"data\A groups.csv")
+df_groups = pd.read_csv(r"data\B groups.csv")
 #######
 
 #notes
@@ -91,7 +91,7 @@ for event in events:
     
 df_judgeAssignment.to_csv("data/judging_assignments_{}.csv".format(comp_id), encoding='utf-8', index=True)
 df_judgeAssignmentPrint = df_judgeAssignment.fillna("")
-df_judgeAssignmentPrint = df_judgeAssignment.drop("Count", axis=1)
+df_judgeAssignmentPrint = df_judgeAssignmentPrint.drop("Count", axis=1)
 df_judgeAssignmentPrint = df_judgeAssignmentPrint.sort_values(by=["Person"], ascending = "True")
 
 print(df_judgeAssignmentPrint.to_markdown())
