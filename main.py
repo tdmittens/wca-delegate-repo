@@ -90,8 +90,11 @@ for event in events:
     
     
 df_judgeAssignment.to_csv("data/judging_assignments_{}.csv".format(comp_id), encoding='utf-8', index=True)
+df_judgeAssignmentPrint = df_judgeAssignment.fillna("")
+df_judgeAssignmentPrint = df_judgeAssignment.drop("Count", axis=1)
+df_judgeAssignmentPrint = df_judgeAssignmentPrint.sort_values(by=["Person"], ascending = "True")
 
-
+print(df_judgeAssignmentPrint.to_markdown())
 
     
 
