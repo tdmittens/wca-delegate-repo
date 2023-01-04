@@ -5,15 +5,18 @@ from sklearn.utils import shuffle
 
 
 ####### TO CHANGE
-comp_id = "OakvilleFallB2022"
-json_path = r"data\{}.json".format(comp_id)
-df_groups = pd.read_csv(r"data\B groups.csv")
-#######
+comp_id = "ApplebyWinterA2023"
+folder_name = "Appleby 2023"
+group_file_name = "A groups.csv"
 
 #notes
 #removed delegates from original groups files
+#######
 
 
+json_path = r"data\{}\{}.json".format(folder_name,comp_id) #download from wcif
+#wcif - https://www.worldcubeassociation.org/api/v0/competitions/{competitionID}/wcif/
+df_groups = pd.read_csv(r"data\{}\{}".format(folder_name, group_file_name))
 
 #json file open
 f = open(json_path, encoding="utf8")
@@ -24,11 +27,11 @@ dict_wcifCompetitor = dict_json['persons']
 df_wcifCompetitor = pd.DataFrame.from_dict(dict_wcifCompetitor)
 
 #use group df
-df_groups = df_groups.set_index('Person')
+df_groups = df_groups.set_index('Name')
 df_groups = shuffle(df_groups, random_state=12091998)
 
 #parameters for judging
-STAGE_COUNT = 9 #per colour
+STAGE_COUNT = 11 #per colour
 
 #find all stages available to judge
 dict_stages = {}
@@ -89,10 +92,10 @@ for event in events:
     df_groups = df_groups.sort_values(by=["Count"], ascending = "True") #sort by lowest to highest, to force new people to judge where required
     
     
-df_judgeAssignment.to_csv("data/judging_assignments_{}.csv".format(comp_id), encoding='utf-8', index=True)
+df_judgeAssignment.to_csv("data/{}/judging_assignments_{}.csv".format(folder_name,comp_id), encoding='utf-8', index=True)
 df_judgeAssignmentPrint = df_judgeAssignment.fillna("")
 df_judgeAssignmentPrint = df_judgeAssignmentPrint.drop("Count", axis=1)
-df_judgeAssignmentPrint = df_judgeAssignmentPrint.sort_values(by=["Person"], ascending = "True")
+df_judgeAssignmentPrint = df_judgeAssignmentPrint.sort_values(by=["Name"], ascending = "True")
 
 print(df_judgeAssignmentPrint.to_markdown())
 
